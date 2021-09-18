@@ -1,9 +1,11 @@
 package guru.qa;
 
 import com.codeborne.pdftest.PDF;
+import com.codeborne.xlstest.XLS;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -29,8 +31,12 @@ public class SelenideFilesTest {
     }
 
     @Test
-    void xlsFileTest() {
-
+    void xlsFileTest() throws Exception {
+        try (InputStream stream = getClass().getClassLoader().getResourceAsStream("test.xlsx")) {
+            XLS parsed = new XLS(stream);
+            assertThat(parsed.excel.getSheetAt(0).getRow(2).getCell(1).getStringCellValue())
+                    .isEqualTo("А");
+        }
     }
 
     @Test
