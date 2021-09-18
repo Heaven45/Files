@@ -1,11 +1,14 @@
 package guru.qa;
 
+import com.codeborne.pdftest.PDF;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SelenideFilesTest {
@@ -20,8 +23,9 @@ public class SelenideFilesTest {
     }
 
     @Test
-    void pdfFileTest() {
-
+    void pdfFileTest() throws Exception {
+        PDF parsed = new PDF(getClass().getClassLoader().getResourceAsStream("test.pdf"));
+        assertThat(parsed.text).contains("Электронный\nбилет");
     }
 
     @Test
